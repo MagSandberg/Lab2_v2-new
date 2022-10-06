@@ -7,8 +7,8 @@ public class Customer
 
     public string Password { get; private set; }
 
-    private static List<Product> _cart;
-    public static List<Product> Cart { get { return _cart; } }
+    private List<Product> _cart;
+    public List<Product> Cart { get { return _cart; } }
 
     public Customer(string name, string password)
     {

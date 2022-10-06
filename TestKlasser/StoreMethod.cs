@@ -2,29 +2,29 @@
 
 public class StoreMethod
 {
-    public static void AddToCart(int prodId)
+    public static void AddToCart(int prodId, Customer customer)
     {
         Console.Clear();
 
-        if (Customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
+        if (customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
         {
-            foreach (var item in Customer.Cart.Where(item => item.Id.Equals(prodId)))
+            foreach (var item in customer.Cart.Where(item => item.Id.Equals(prodId)))
             {
                 item.Qty++;
             }
         }
         else
         {
-            Customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
+            customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
         }
     }
-    public static void RemoveFromCart(int prodId)
+    public static void RemoveFromCart(int prodId, Customer customer)
     {
         Console.Clear();
 
-        if (Customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
+        if (customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
         {
-            foreach (var item in Customer.Cart.Where(item => item.Id.Equals(prodId)))
+            foreach (var item in customer.Cart.Where(item => item.Id.Equals(prodId)))
             {
                 if (item.Qty > 0)
                 {
@@ -34,13 +34,13 @@ public class StoreMethod
         }
         else
         {
-            Customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
+            customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
         }
     }
-    public static void PrintCart()
+    public static void PrintCart(Customer customer)
     {
         double totalSum = 0;
-        foreach (var p in Customer.Cart)
+        foreach (var p in customer.Cart)
         {
             Console.WriteLine($"Produkt: {p.Name} | Styckpris: {p.Price} | Antal: {p.Qty} | Totalpris: {string.Format("{0:0.00}", p.Qty * p.Price)}");
             totalSum += p.Qty * p.Price;
