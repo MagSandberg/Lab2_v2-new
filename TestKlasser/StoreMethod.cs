@@ -4,6 +4,7 @@ public class StoreMethod
 {
     public static void AddToCart(int prodId)
     {
+        Console.Clear();
 
         if (Customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
         {
@@ -19,6 +20,8 @@ public class StoreMethod
     }
     public static void RemoveFromCart(int prodId)
     {
+        Console.Clear();
+
         if (Customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
         {
             foreach (var item in Customer.Cart.Where(item => item.Id.Equals(prodId)))
@@ -47,8 +50,9 @@ public class StoreMethod
     }
     public static void ProductDisplay()
     {
-        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"Lägg till eller ta bort en produkt i kundvagnen med tangenterna 1-6\neller Q för att gå tillbaka.\n");
+
         Console.ForegroundColor = ConsoleColor.Gray;
         foreach (var p in DataSource.Stock)
         {
@@ -79,5 +83,6 @@ public class StoreMethod
             Bool.LoginMenu = true;
             Bool.StoreMenu = false;
         }
+        Console.Clear();
     }
 }

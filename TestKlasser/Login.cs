@@ -28,7 +28,7 @@ public class Login
 
         Console.Clear();
     }
-    public bool CheckIfUserExists()
+    public bool CheckIfUserExists() //Kontrollerar användarens namn och lösenord och agerar utifrån det
     {
         foreach (var user in userList)
         {
@@ -36,8 +36,8 @@ public class Login
             {
                 if (CheckIfUserPasswordExists(user.Password))
                 {
-                    Bool.LoginMenu = false;
-                    Bool.StoreMenu = true;
+                    Bool.LoginMenu = false; //Stänger login
+                    Bool.StoreMenu = true;  //Öppnar affären
                     return true;
                 }
                 while (true)
