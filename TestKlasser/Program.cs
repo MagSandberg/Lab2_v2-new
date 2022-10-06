@@ -30,7 +30,7 @@ void LoginMenu()
         {
             Console.Write("\nFel inmatning: ");
             ChangeTextColorLogin("Red");
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nVänligen välj mellan 1, 2 eller Q för att avsluta.\n");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
@@ -113,7 +113,7 @@ void StoreMenu()
                         Console.Clear();
                         Console.Write("Fel inmatning: ");
                         ChangeTextColorProducts("Red");
-                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("\nVänligen välj med tangenterna 1-6 eller Q.\n");
                         Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -176,7 +176,7 @@ void StoreMenu()
                         Console.Clear();
                         Console.Write("Fel inmatning: ");
                         ChangeTextColorProducts("Red");
-                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("\nVänligen välj med tangenterna 1-6 eller Q.\n");
                         Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -191,9 +191,20 @@ void StoreMenu()
                         Bool.WrongKey = false;
                     }
                 }
-
+                break;
+            case ConsoleKey.D3:
+                while (Bool.WrongKey)
+                {
+                    Console.Clear();
+                    Console.WriteLine("1: Handla | 2: Kundvagn | 3: Till kassan | Q: Logga ut");
+                    ChangeTextColorMenuShop("Green.Kassa");
+                    Console.WriteLine("hej");
+                    Console.ReadKey();
+                }
                 break;
             case ConsoleKey.Q:
+                Console.WriteLine("1: Handla | 2: Kundvagn | 3: Till kassan | Q: Logga ut");
+                ChangeTextColorMenuShop("Green.Quit");
                 activeUser = userLogin.Name;
                 StoreMethod.VerifyLogout();
                 break;
@@ -249,9 +260,14 @@ void ChangeTextColorMenuShop(string color)
             Console.WriteLine("            -----------");
             Console.ForegroundColor = ConsoleColor.Gray;
             break;
+        case "Green.Kassa":
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("                          --------------");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            break;
         case "Green.Quit":
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("                                      -----------------");
+            Console.WriteLine("                                           -----------");
             Console.ForegroundColor = ConsoleColor.Gray;
             break;
         default:
