@@ -1,10 +1,16 @@
-﻿
-namespace Lab2_v2;
+﻿namespace Lab2_v2;
 
 public class Customer
 {
-    public string Name { get; private set; }
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    private bool _isActive;
 
+    public bool IsActive
+    {
+        get { return _isActive; }
+        set { _isActive = value; }
+    }
     public string Password { get; private set; }
 
     private List<Product> _cart;
@@ -20,7 +26,7 @@ public class Customer
     public override string ToString()
     {
         var customerCart = string.Empty;
-        foreach (var p in _cart)
+        foreach (var p in Cart)
         {
             customerCart += $"[{p.Name}] | ".ToString();
             customerCart += $"{p.Qty}".ToString();

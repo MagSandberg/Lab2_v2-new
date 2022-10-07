@@ -5,7 +5,8 @@ namespace Lab2_v2;
 
 public class DataSource
 {
-    public static List<Product> Stock { get; } = new();
+    public List<Customer> Customer{ get; } = new();
+    public List<Product> Stock { get; } = new();
 
     public DataSource()
     {
@@ -14,6 +15,13 @@ public class DataSource
             new Product { Id = 1, Name = "T-shirt", Price = 299.99, Qty = 1 },
             new Product { Id = 2, Name = "Jeans", Price = 1429.12, Qty = 1 },
             new Product { Id = 3, Name = "Keps", Price = 123.45, Qty = 1 },
+        });
+
+        Customer.AddRange(new[]
+        {
+            new Customer("Knatte", "123") { Id = 1, IsActive = false, Cart = { } },
+            new Customer("Fnatte", "321") { Id = 2, IsActive = false, Cart = { } },
+            new Customer("Tjatte", "213") { Id = 3, IsActive = false, Cart = { } },
         });
     }
 }

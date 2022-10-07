@@ -1,4 +1,5 @@
-﻿using Lab2_v2;
+﻿using System.Diagnostics.CodeAnalysis;
+using Lab2_v2;
 using System.IO;
 
 var db = new DataSource(); //Produkt-"databas"
@@ -28,7 +29,8 @@ void LoginMenu()
         System.ConsoleKey[] cK = { ConsoleKey.D1, ConsoleKey.D2, ConsoleKey.D3, ConsoleKey.Q };
         if (!cK.Contains(keyPress.Key))
         {
-            Console.Write("\nFel inmatning: ");
+            Console.Clear();
+            Console.Write("Fel inmatning: ");
             ChangeTextColorLogin("Red");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nVänligen välj mellan 1, 2 eller Q för att avsluta.\n");
@@ -44,12 +46,11 @@ void LoginMenu()
                     userLogin.LoginFields();
                     userLogin.CheckIfUserExists();
                     break;
-
                 case ConsoleKey.D2:
 
                     ChangeTextColorLogin("Green.Register");
                     userLogin.LoginFields(); //Name, Password
-                    userLogin.userList.Add(new Customer(userLogin.Name, userLogin.Password)); //Spara till lista
+                    db.Customer.Add(new Customer(userLogin.Name, userLogin.Password)); //Spara till lista
                     break;
 
                 case ConsoleKey.Q:
@@ -121,27 +122,27 @@ void StoreMenu()
                         {
                             case ConsoleKey.D1:
                                 productId = 1;
-                                StoreMethod.AddToCart(productId, activeUser);
+                                StoreMethod.AddToCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.D2:
                                 productId = 1;
-                                StoreMethod.RemoveFromCart(productId, activeUser);
+                                StoreMethod.RemoveFromCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.D3:
                                 productId = 2;
-                                StoreMethod.AddToCart(productId, activeUser);
+                                StoreMethod.AddToCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.D4:
                                 productId = 2;
-                                StoreMethod.RemoveFromCart(productId, activeUser);
+                                StoreMethod.RemoveFromCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.D5:
                                 productId = 3;
-                                StoreMethod.AddToCart(productId, activeUser);
+                                StoreMethod.AddToCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.D6:
                                 productId = 3;
-                                StoreMethod.RemoveFromCart(productId, activeUser);
+                                StoreMethod.RemoveFromCart(productId, customer: db.Customer.Find(p => p.IsActive = true));
                                 break;
                             case ConsoleKey.Q:
                                 Bool.WrongKeyProd = false;
@@ -160,7 +161,7 @@ void StoreMenu()
                     Console.WriteLine("1: Handla | 2: Kundvagn | 3: Till kassan | Q: Logga ut");
                     ChangeTextColorMenuShop("Green.Kundvagn");
 
-                    StoreMethod.PrintCart(activeUser); //Skriver ut kundvagnen
+                    StoreMethod.PrintCart(db.Customer.Find(p => p.IsActive = true)); //Skriver ut kundvagnen
 
                     keyPressMenuShop = Console.ReadKey();
                     if (!cK.Contains(keyPressMenuShop.Key))
@@ -172,7 +173,7 @@ void StoreMenu()
                         Console.WriteLine("\nVänligen välj med tangenterna 1-6 eller Q.\n");
                         Console.ForegroundColor = ConsoleColor.Gray;
 
-                        StoreMethod.PrintCart(activeUser); //Skriver ut kundvagnen
+                        StoreMethod.PrintCart(db.Customer.Find(p => p.IsActive = true)); //Skriver ut kundvagnen
 
                         keyPressMenuShop = Console.ReadKey();
                     }
@@ -197,7 +198,21 @@ void StoreMenu()
             case ConsoleKey.Q:
                 Console.WriteLine("1: Handla | 2: Kundvagn | 3: Till kassan | Q: Logga ut");
                 ChangeTextColorMenuShop("Green.Quit");
-                StoreMethod.VerifyLogout(); //Kontrollerar om kunden vill logga ut
+                Console.WriteLine("Logga ut, är du säker?\nTryck J för att avsluta eller valfri tangent för att gå tillbaka\n");
+                var verifyQuit = Console.ReadKey();
+                if (verifyQuit.Key == ConsoleKey.J)
+                {
+                    foreach (var cust in db.Customer)
+                    {
+                        if (cust.IsActive)
+                        {
+                            cust.IsActive = false;
+                        }
+                    }
+                    Bool.LoginMenu = true;
+                    Bool.StoreMenu = false;
+                }
+                Console.Clear();
                 break;
         }
     }

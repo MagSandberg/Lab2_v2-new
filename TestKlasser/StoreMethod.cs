@@ -4,25 +4,21 @@ public class StoreMethod
 {
     public static void AddToCart(int prodId, Customer customer)
     {
-        Console.Clear();
-
-        if (customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
+        var db = new DataSource();
+        if (customer.Cart.Contains(db.Stock.Find(p => p.Id == prodId)))
         {
             foreach (var item in customer.Cart.Where(item => item.Id.Equals(prodId)))
             {
                 item.Qty++;
             }
         }
-        else
-        {
-            customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
-        }
+        customer.Cart.AddRange(new[] { db.Stock.FirstOrDefault(p => p.Id == prodId) });
     }
     public static void RemoveFromCart(int prodId, Customer customer)
     {
+        var db = new DataSource();
         Console.Clear();
-
-        if (customer.Cart.Contains(DataSource.Stock.Find(p => p.Id == prodId)))
+        if (customer.Cart.Contains(db.Stock.Find(p => p.Id == prodId)))
         {
             foreach (var item in customer.Cart.Where(item => item.Id.Equals(prodId)))
             {
@@ -34,13 +30,13 @@ public class StoreMethod
         }
         else
         {
-            customer.Cart.AddRange(DataSource.Stock.FindAll(p => p.Id == prodId));
+            customer.Cart.AddRange(db.Stock.FindAll(p => p.Id == prodId));
         }
     }
-    public static void PrintCart(Customer customer)
+    public static void PrintCart(Customer cust)
     {
         double totalSum = 0;
-        foreach (var p in customer.Cart)
+        foreach (var p in cust.Cart)
         {
             Console.WriteLine($"Produkt: {p.Name} | Styckpris: {p.Price} | Antal: {p.Qty} | Totalpris: {string.Format("{0:0.00}", p.Qty * p.Price)}");
             totalSum += p.Qty * p.Price;
@@ -50,11 +46,12 @@ public class StoreMethod
     }
     public static void ProductDisplay()
     {
+        var db = new DataSource();
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"Lägg till eller ta bort en produkt i kundvagnen med tangenterna 1-6\neller Q för att gå tillbaka.\n");
 
         Console.ForegroundColor = ConsoleColor.Gray;
-        foreach (var p in DataSource.Stock)
+        foreach (var p in db.Stock)
         {
             var addProd = String.Empty;
 
@@ -72,17 +69,5 @@ public class StoreMethod
             }
             Console.WriteLine($"{addProd} {p.Name} / Pris: {p.Price}");
         }
-    }
-    public static void VerifyLogout()
-    {
-        Console.WriteLine("Logga ut, är du säker?\nTryck J för att avsluta eller valfri tangent för att gå tillbaka\n");
-        var verifyQuit = Console.ReadKey();
-        if (verifyQuit.Key == ConsoleKey.J)
-        {
-            Console.Clear();
-            Bool.LoginMenu = true;
-            Bool.StoreMenu = false;
-        }
-        Console.Clear();
     }
 }

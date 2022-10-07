@@ -9,15 +9,7 @@ public class Login
     public string Name { get; set; }
     public string Password { get; set; }
 
-    public List<Customer> userList = new()
-    {
-        new Customer("Knatte", "123"),
-        new Customer("Fnatte", "321"),
-        new Customer("Tjatte", "213")
-    };
-
     //Method
-
     public void LoginFields()
     {
         Console.Write("Fyll i namn: ");
@@ -28,14 +20,17 @@ public class Login
 
         Console.Clear();
     }
+
     public bool CheckIfUserExists() //Kontrollerar användarens namn och lösenord och agerar utifrån det
     {
-        foreach (var user in userList)
+        var data = new DataSource();
+        foreach (var user in data.Customer)
         {
             if (CheckIfUserNameExists(user.Name))
             {
                 if (CheckIfUserPasswordExists(user.Password))
                 {
+                    user.IsActive = true;
                     Bool.LoginMenu = false; //Stänger login
                     Bool.StoreMenu = true;  //Öppnar affären
                     return true;
@@ -65,7 +60,7 @@ public class Login
                 Console.Clear();
                 Console.WriteLine("* Registrera ny kund *\n");
                 LoginFields(); //Name, Password
-                userList.Add(new Customer(Name, Password)); //Spara till lista
+                data.Customer.Add(new Customer(Name, Password)); //Spara till lista
             }
             else if (keyPress.Key != ConsoleKey.J)
             {
