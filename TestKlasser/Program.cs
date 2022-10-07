@@ -103,7 +103,7 @@ void StoreMenu()
 
                     keyPressProd = Console.ReadKey();
                     if (!cK.Contains(keyPressProd.Key))
-                    {
+                    {  //ty
                         Console.Clear();
                         Console.Write("Fel inmatning: ");
                         ChangeTextColorProducts("Red");
